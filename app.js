@@ -72,7 +72,28 @@ function positionQuestions(userResponse) {
       .catch(function (err) {
         if (err) throw err;
       });
-  }
+  } else if (userResponse.employeeRole === "Engineer") {
+    inquirer
+      .prompt([
+        {
+          type: "input",
+          name: "github",
+          message: "Please enter employee GitHub username: ",
+        },
+      ])
+      .then(function (positionResponse) {
+        const engineer = new Engineer(
+          userResponse.name,
+          userResponse.id,
+          userResponse.email,
+          userResponse.github
+        );
+        employeeArray.push(engineer);
+        stropPrompt();
+  }).catch(function(err){
+      if(err) throw err
+
+  })
 }
 
 // Write code to use inquirer to gather information about the development team members,
