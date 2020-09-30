@@ -20,29 +20,59 @@ function initialQuestions(userInput) {
       {
         type: "input",
         name: "name",
-        message: "What is your name?",
+        message: "What is employee name? ",
       },
       {
         type: "input",
         name: "id",
-        message: "What is your id?",
+        message: "What is employee ID? ",
       },
       {
         type: "input",
         name: "email",
-        message: "What is your email?",
+        message: "What is employee email? ",
       },
       {
         type: "list",
         name: "role",
-        message: "Please select your role:",
+        message: "Please select your role: ",
         choices: ["Manager", "Engineer", "Intern"],
       },
     ])
     .then(function (response) {
       console.log(response);
-      specificQuestions(response
+      positionQuestions(response);
+    })
+    .catch(function (err) {
+      if (err) throw err;
+      console.log("Logged initial prompt inputs!");
     });
+}
+
+function positionQuestions(userResponse) {
+  if (positionInputs.employeeRole === "Manager") {
+    inquirer
+      .prompt([
+        {
+          type: "input",
+          name: "officeNumber",
+          message: "Please enter office number: ",
+        },
+      ])
+      .then(function (positionResponse) {
+        const manager = new Manager(
+          userResponse.name,
+          userResponse.id,
+          userResponse.email,
+          userResponse.officeNumber
+        );
+        employeeArray.push(manager);
+        stopPrompt();
+      })
+      .catch(function (err) {
+        if (err) throw err;
+      });
+  }
 }
 
 // Write code to use inquirer to gather information about the development team members,
